@@ -1,0 +1,13 @@
+orgID: 2
+templateFileList: ['Temperature.json']
+grafana_url: "http://localhost:3000/"
+grafana_auth: "eyJrIjoiUUM1M3ljd0JHVE5SM3VhMUNjemIwMVF4Q2wwUXVmRDAiLCJuIjoidGVycmFmb3JtX2FwaSIsImlkIjoyfQ=="
+grafana_admin: 'admin'
+admin_password: 'Ud98%2Lm'
+machineID_list: ['berlin','budapest']
+machineID: 'berlin'
+
+
+
+
+

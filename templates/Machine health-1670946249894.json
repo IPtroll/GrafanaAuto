@@ -1,0 +1,340 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 24,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 0,
+        "y": 0
+      },
+      "id": 61,
+      "options": {
+        "content": "# \n![Image](https://secureservercdn.net/160.153.137.170/ixq.be3.myftpupload.com/wp-content/uploads/2020/09/ipercept_technology.png )  \n\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": " ",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xPcagw4nk"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 11,
+        "y": 0
+      },
+      "id": 57,
+      "options": {
+        "config": {
+          "displayModeBar": false
+        },
+        "data": [
+          {
+            "colorscale": "Portland",
+            "showscale": false,
+            "type": "heatmap"
+          }
+        ],
+        "layout": {
+          "font": {
+            "color": "darkgrey"
+          },
+          "hovermode": "closest",
+          "margin": {
+            "b": 40,
+            "l": 10,
+            "r": 10,
+            "t": 10
+          },
+          "paper_bgcolor": "rgba(0,0,0,0)",
+          "plot_bgcolor": "rgba(0,0,0,0)",
+          "showlegend": false,
+          "xaxis": {
+            "autorange": false,
+            "range": [
+              "2022-10-19 09:31:01.0169",
+              "2022-10-21 06:27:57.9661"
+            ],
+            "type": "date"
+          },
+          "yaxis": {
+            "automargin": true,
+            "autorange": true,
+            "range": [
+              -0.5,
+              99.5
+            ],
+            "type": "category",
+            "visible": false
+          }
+        },
+        "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+        "script": "//console.log(data)\nconst valid_data = data.series.length > 0 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"Date outside of time range\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\nbins = data.series.map(s => s.fields[1].name)\n\nx = data.series[0].fields[0].values.buffer.map((d)=> new Date(d))\ny = data.series.map((s) => s.name)\nz = data.series.map(s => s.fields[1].values.buffer)\nplot = {\n  x: x,\n  y: bins,\n  z: z\n}\n\nreturn {data:[plot]};"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xPcagw4nk"
+          },
+          "query": "from(bucket: \"IPercept\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"E1_FFT\")\r\n  |> filter(fn: (r) => r[\"host\"] == \"MID_E1_M220406_SB_100000003cb8ded3\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Spindel",
+      "transparent": true,
+      "type": "nline-plotlyjs-panel"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 0,
+        "y": 6
+      },
+      "id": 63,
+      "options": {
+        "content": "\n<p> <b style=\"color:grey;\"> 2022-01-01 12:00  </b>  | <b style=\"color:Red;\" > VARNING </b> | <a style=\"color:red;\" > Detta är en exempelvarning!  </a>\n</p>\n\n<p> <b style=\"color:grey;\"> 2022-01-01 12:00  </b>  | <a style=\"color:LightSkyBlue;\" > Meddelande </a> | Detta är ett exempelmeddelande\n</p>\n\n<p> <b style=\"color:grey;\"> 2022-01-01 12:00  </b>  | <a style=\"color:SpringGreen;\" > Händelse </a> | Detta är en exempelhändelse\n</p>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": "Händelser",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xPcagw4nk"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 11,
+        "y": 9
+      },
+      "id": 55,
+      "options": {
+        "config": {
+          "displayModeBar": false
+        },
+        "data": [
+          {
+            "colorscale": "Portland",
+            "showscale": false,
+            "type": "heatmap"
+          }
+        ],
+        "layout": {
+          "font": {
+            "color": "darkgrey"
+          },
+          "hovermode": "closest",
+          "margin": {
+            "b": 40,
+            "l": 10,
+            "r": 10,
+            "t": 10
+          },
+          "paper_bgcolor": "rgba(0,0,0,0)",
+          "plot_bgcolor": "rgba(0,0,0,0)",
+          "showlegend": false,
+          "xaxis": {
+            "autorange": true,
+            "range": [
+              "2022-10-15 11:00",
+              "2022-12-19 08:30"
+            ],
+            "type": "date"
+          },
+          "yaxis": {
+            "automargin": true,
+            "autorange": true,
+            "range": [
+              -0.5,
+              99.5
+            ],
+            "type": "category",
+            "visible": false
+          }
+        },
+        "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+        "script": "//console.log(data)\nconst valid_data = data.series.length > 0 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"Data outside of time range\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\nbins = data.series.map(s => s.fields[1].name)\n\nx = data.series[0].fields[0].values.buffer.map((d)=> new Date(d))\ny = data.series.map((s) => s.name)\nz = data.series.map(s => s.fields[1].values.buffer)\nplot = {\n  x: x,\n  y: bins,\n  z: z\n}\n\nreturn {data:[plot]};"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xPcagw4nk"
+          },
+          "query": "from(bucket: \"IPercept\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"E1_FFT\")\r\n  |> filter(fn: (r) => r[\"host\"] == \"MID_E1_M220406_SB_10000000434310d9\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Subsystem 1",
+      "transparent": true,
+      "type": "nline-plotlyjs-panel"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 0,
+        "y": 14
+      },
+      "id": 59,
+      "options": {
+        "folderId": 0,
+        "maxItems": 10,
+        "query": "",
+        "showHeadings": false,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": []
+      },
+      "pluginVersion": "8.1.2",
+      "title": "Menu",
+      "transparent": true,
+      "type": "dashlist"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xPcagw4nk"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 11,
+        "y": 18
+      },
+      "id": 56,
+      "options": {
+        "config": {
+          "displayModeBar": false
+        },
+        "data": [
+          {
+            "colorscale": "Portland",
+            "showscale": false,
+            "type": "heatmap"
+          }
+        ],
+        "layout": {
+          "font": {
+            "color": "darkgrey"
+          },
+          "hovermode": "closest",
+          "margin": {
+            "b": 40,
+            "l": 10,
+            "r": 10,
+            "t": 10
+          },
+          "paper_bgcolor": "rgba(0,0,0,0)",
+          "plot_bgcolor": "rgba(0,0,0,0)",
+          "showlegend": false,
+          "xaxis": {
+            "autorange": true,
+            "range": [
+              "2022-10-15 11:00",
+              "2022-12-19 08:30"
+            ],
+            "type": "date"
+          },
+          "yaxis": {
+            "automargin": true,
+            "autorange": true,
+            "range": [
+              -0.5,
+              99.5
+            ],
+            "type": "category",
+            "visible": false
+          }
+        },
+        "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+        "script": "//console.log(data)\nconst valid_data = data.series.length > 0 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"Data outside of time range\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\nbins = data.series.map(s => s.fields[1].name)\n\nx = data.series[0].fields[0].values.buffer.map((d)=> new Date(d))\ny = data.series.map((s) => s.name)\nz = data.series.map(s => s.fields[1].values.buffer)\nplot = {\n  x: x,\n  y: bins,\n  z: z\n}\n\nreturn {data:[plot]};"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xPcagw4nk"
+          },
+          "query": "from(bucket: \"IPercept\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"E1_FFT\")\r\n  |> filter(fn: (r) => r[\"host\"] == \"MID_E1_M220406_SB_10000000f061c620\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Subsystem 2",
+      "transparent": true,
+      "type": "nline-plotlyjs-panel"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 0,
+        "y": 21
+      },
+      "id": 42,
+      "options": {
+        "content": "# \n![Image](https://public-ipercept.s3.eu-north-1.amazonaws.com/Dashboard_pictures/Hermle+C42.png )  \n\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": " ",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Machine health",
+  "uid": "xFl8UHc4z",
+  "version": 7
+}

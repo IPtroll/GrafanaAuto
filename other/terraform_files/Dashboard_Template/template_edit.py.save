@@ -1,0 +1,14 @@
+import json
+
+with open('Humidity.json', 'r') as fcc_file:
+    fcc_data = json.load(fcc_file)
+int(fcc_data)
+	print("\n")
+	machineID=fcc_data["templating"]["list"][0]["query"]
+	print(machineID)
+	machineID="berlin"
+	fcc_data["templating"]["list"][0]["query"]=machineID
+	edit_data=json.dumps(fcc_data)
+
+with open('Humidity_edited.json','w') as f_edit:
+	f_edit.write(edit_data)

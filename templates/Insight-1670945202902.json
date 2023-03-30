@@ -1,0 +1,648 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 8,
+  "iteration": 1670944418574,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "content": "# \n![Image](https://secureservercdn.net/160.153.137.170/ixq.be3.myftpupload.com/wp-content/uploads/2020/09/ipercept_technology.png )  \n\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": " ",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 6,
+        "w": 19,
+        "x": 5,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "content": " <br>  <br> \n<h1 > </h1>\n\n ",
+        "mode": "html"
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "query": "",
+          "refId": "A"
+        }
+      ],
+      "title": " ",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 0,
+        "y": 6
+      },
+      "id": 14,
+      "options": {
+        "content": "\n<p> <b style=\"color:grey;\"> 2022-01-01 12:00  </b>  | <b style=\"color:Red;\" > VARNING </b> | <a style=\"color:red;\" > Detta är en exempelvarning!  </a>\n</p>\n\n<p> <b style=\"color:grey;\"> 2022-01-01 12:00  </b>  | <a style=\"color:LightSkyBlue;\" > Meddelande </a> | Detta är ett exempelmeddelande\n</p>\n\n<p> <b style=\"color:grey;\"> 2022-01-01 12:00  </b>  | <a style=\"color:SpringGreen;\" > Händelse </a> | Detta är en exempelhändelse\n</p>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": "Händelser",
+      "type": "text"
+    },
+    {
+      "aggregate": "AVG",
+      "color": {
+        "colorScheme": "interpolateRdYlGn",
+        "colorSpace": "RGB",
+        "customColors": [
+          {
+            "$$hashKey": "object:567",
+            "color": "#73BF69"
+          },
+          {
+            "$$hashKey": "object:568",
+            "color": "#73BF69"
+          }
+        ],
+        "mode": "CUSTOM",
+        "nullColor": "transparent"
+      },
+      "data": {
+        "decimals": null,
+        "unitFormat": "short"
+      },
+      "datasource": "InfluxDB_centralized",
+      "fragment": "HOUR",
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 5,
+        "y": 6
+      },
+      "id": 6,
+      "legend": {
+        "show": false
+      },
+      "pluginVersion": "8.1.2",
+      "scale": {
+        "max": null,
+        "min": null
+      },
+      "targets": [
+        {
+          "hide": false,
+          "query": "from(bucket: \"V1\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"test_trigger\")\r\n  |> filter(fn: (r) => r[\"CID\"] == \"V1\")\r\n  |> filter(fn: (r) => r[\"MID\"] == \"MID_V1_M220906_01\")\r\n  |> filter(fn: (r) => r[\"SBID\"] == \"SB_10000000aceba07e\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"trigger\")\r\n  |> filter(fn: (r) => r[\"label\"] == \"True\")",
+          "refId": "B"
+        }
+      ],
+      "title": "Testhistorik ",
+      "tooltip": {
+        "show": true
+      },
+      "type": "petrslavotinek-carpetplot-panel",
+      "xAxis": {
+        "hideLabels": false,
+        "labelFormat": "%a %m/%d",
+        "minBucketWidthToShowWeekends": 4,
+        "show": true,
+        "showCrosshair": true,
+        "showWeekends": true
+      },
+      "yAxis": {
+        "show": true,
+        "showCrosshair": true
+      }
+    },
+    {
+      "datasource": "InfluxDB_centralized",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "d"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeFromNow"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 16,
+        "y": 6
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "hide": false,
+          "query": "from(bucket: \"V1\")\r\n  |> range(start: 2020-01-01, stop: -5s)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"test_trigger\")\r\n  |> filter(fn: (r) => r[\"CID\"] == \"V1\")\r\n  |> filter(fn: (r) => r[\"MID\"] == \"MID_V1_M220906_01\")\r\n  |> filter(fn: (r) => r[\"SBID\"] == \"SB_10000000aceba07e\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"trigger\")\r\n  |> filter(fn: (r) => r[\"label\"] == \"True\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Tid sedan senast genomförda test",
+      "type": "stat"
+    },
+    {
+      "datasource": "InfluxDB_centralized",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 20,
+        "y": 6
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "fields": "/^trigger \\{CID=\"V1\", MID=\"MID_V1_M220906_01\", SBID=\"SB_10000000aceba07e\", label=\"True\"\\}$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "hide": false,
+          "query": "from(bucket: \"V1\")\r\n  |> range(start: 2020-01-01, stop: -5s)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"test_trigger\")\r\n  |> filter(fn: (r) => r[\"CID\"] == \"V1\")\r\n  |> filter(fn: (r) => r[\"MID\"] == \"MID_V1_M220906_01\")\r\n  |> filter(fn: (r) => r[\"SBID\"] == \"SB_10000000aceba07e\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"trigger\")\r\n  |> filter(fn: (r) => r[\"label\"] == \"True\")",
+          "refId": "B"
+        }
+      ],
+      "title": "Totalt antal test genomförda",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 0,
+        "y": 14
+      },
+      "id": 30,
+      "options": {
+        "folderId": 0,
+        "maxItems": 10,
+        "query": "",
+        "showHeadings": false,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": []
+      },
+      "pluginVersion": "8.1.2",
+      "title": "Menu",
+      "transparent": true,
+      "type": "dashlist"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "DPcfjCK4z"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 18,
+        "x": 5,
+        "y": 14
+      },
+      "id": 61,
+      "maxDataPoints": 1000,
+      "options": {
+        "config": {
+          "displayModeBar": false
+        },
+        "data": [
+          {
+            "name": "Daily Agg.",
+            "textposition": "none",
+            "type": "bar",
+            "width": 86400000,
+            "xaxis": "x2",
+            "yaxis": "y2"
+          }
+        ],
+        "layout": {
+          "font": {
+            "color": "darkgrey"
+          },
+          "margin": {
+            "b": 40,
+            "l": 20,
+            "r": 20,
+            "t": 5
+          },
+          "paper_bgcolor": "rgba(0,0,0,0)",
+          "plot_bgcolor": "rgba(0,0,0,0)",
+          "xaxis": {
+            "anchor": "y",
+            "automargin": true,
+            "autorange": false,
+            "domain": [
+              0,
+              1
+            ],
+            "matches": "x2",
+            "range": [
+              "2022-09-13",
+              "2022-12-12 11:48:41.295"
+            ],
+            "showgrid": false,
+            "showticklabels": false,
+            "type": "date"
+          },
+          "xaxis2": {
+            "anchor": "y2",
+            "autorange": false,
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              "2022-09-13",
+              "2022-12-12 11:48:41.295"
+            ],
+            "type": "date"
+          },
+          "yaxis": {
+            "anchor": "x",
+            "automargin": true,
+            "autorange": false,
+            "domain": [
+              0.4,
+              1
+            ],
+            "range": [
+              -0.5,
+              0.5
+            ],
+            "showticklabels": false,
+            "type": "category"
+          },
+          "yaxis2": {
+            "anchor": "x2",
+            "automargin": false,
+            "autorange": false,
+            "domain": [
+              0,
+              0.5
+            ],
+            "range": [
+              0,
+              1.6
+            ],
+            "showgrid": false,
+            "showticklabels": false,
+            "side": "left",
+            "type": "linear"
+          },
+          "yaxis3": {
+            "anchor": "x2",
+            "autorange": false,
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              0,
+              1
+            ],
+            "showgrid": false,
+            "showticklabels": false,
+            "type": "linear"
+          }
+        },
+        "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})\n",
+        "script": "const labelToColor = (l) => {\n  if(l == 1) return \"green\"\n  if(l == 2) return \"yellow\"\n  if(l == 3) return \"orange\"\n  if(l == 4) return \"red\"\n}\n\nconst labelToName = (l) => {\n  if(l == 1) return \"\"\n  if(l == 2) return \"Micro\"\n  if(l == 3) return \"Minor\"\n  if(l == 4) return \"Major\"\n}\n\nconst valid_data = data.series.length > 0 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"No data in range\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\n\nlet times = data.series[0].fields[0].values.buffer;\nlet values = data.series[0].fields[1].values.buffer;\ntext = values.map(v => `Total Severity: ${v}`)\ntimes = times.map(t => t - 43200000)\nvalues = values.map(v => {\n  if(v >= 1 && v < 10) return 2\n  if(v >= 10 && v < 20) return 3\n  if(v > 20) return 4\n  return 1\n})\n\n\nlet trace1 = {\n  x: times,\n  y: values.map(v => v == 1 ? 0.5 : v/4+0.5 ),\n  color: values,\n  text: text,\n  marker: {}\n};\ntrace1.marker.color = values.map((v) => {\n  if(v == 1) return \"green\"\n  if(v == 2) return \"yellow\"\n  if(v == 3) return \"orange\"\n  if(v == 4) return \"red\"\n});\n\n\ntimes = data.series[1].fields[0].values.buffer;\nvalues = data.series[1].fields[1].values.buffer;\ntext = values.map(v => `Severity: ${v}`)\n\nvalues = values.map(v => {\n  if(v >= 1 && v < 3) return 2\n  if(v >= 3 && v < 4) return 3\n  if(v > 4) return 4\n  return 1\n})\n\nd = times.map((v, i) => {return {\"time\": v, \"value\": values[i], \"text\": text[i]}})\nd = d.sort((a, b) => {if (a.value < b.value) return -1\n  else return 1 })\n\ntraces = [2,3,4].map(label => {\n  s = d.filter(d => d.value == label)\n  let t = {\n    type: \"scatter\",\n    mode: \"markers\",\n    x: s.map(o=> o.time),\n    y: Array(s.length).fill(\"All Collisions\"),\n    marker: {color: labelToColor(label), size: 15},\n    name: labelToName(label)\n  };\n\n  return t\n})\n\nlet annot = []\n\nevents = data.series.filter(f => f.refId == \"Annot\")\n// console.log(events)\nif(events.length > 0 && events[0].length > 0){\n  events = events.map(f => {\n    return {time: f.fields[0].values.buffer[0], name: f.fields[1].labels[\"name\"]}})\n\n  annot = events.map(event => {\n    return {\n      type: 'scatter',\n      mode: 'lines+text',\n      x: [event.time, event.time],\n      y: [0,0.85],\n      text: [\"\",event.name],\n      textposition: 'top',\n      line: {\n        width: 3,\n        color: \"#BB7474\"},\n      textfont: {\n        size: 16, color: \"#BB7474\"\n      },\n      yaxis: \"y3\",\n      name: event.name\n    }\n  })\n}\n  \n\n\nreturn { data: [trace1, ...traces, ...annot] };"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "DPcfjCK4z"
+          },
+          "query": "from(bucket: \"IPercept\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"SB_1000000053d52cd9\")\n  |> filter(fn: (r) => r[\"_field\"] == \"amplitude\")\n  |> filter(fn: (r) => r[\"_value\"] >= 1)\n  |> aggregateWindow(every: 1d, offset: -2h, fn: sum, createEmpty: true, timeSrc: \"_stop\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "DPcfjCK4z"
+          },
+          "hide": false,
+          "query": "from(bucket: \"IPercept\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"SB_1000000053d52cd9\")\n  |> filter(fn: (r) => r[\"_field\"] == \"amplitude\")",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "DPcfjCK4z"
+          },
+          "hide": true,
+          "query": "from(bucket:\"Events\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn:(r) => r._measurement == \"events\")",
+          "refId": "Annot"
+        }
+      ],
+      "title": "Kollisioner",
+      "type": "nline-plotlyjs-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xPcagw4nk"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "color": "semi-dark-green",
+                  "index": 0,
+                  "text": "Stage 0"
+                },
+                "to": 0.99
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 1,
+                "result": {
+                  "color": "light-green",
+                  "index": 1,
+                  "text": "Stage 1"
+                },
+                "to": 1.99
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 2,
+                "result": {
+                  "color": "super-light-green",
+                  "index": 2,
+                  "text": "Stage 2"
+                },
+                "to": 2.99
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 3,
+                "result": {
+                  "color": "light-yellow",
+                  "index": 3,
+                  "text": "Stage 3"
+                },
+                "to": 3.99
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 4,
+                "result": {
+                  "color": "light-red",
+                  "index": 4,
+                  "text": "Stage 4"
+                },
+                "to": 4.99
+              },
+              "type": "range"
+            }
+          ],
+          "max": 5,
+          "min": 0,
+          "noValue": "2",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-green",
+                "value": null
+              },
+              {
+                "color": "light-green",
+                "value": 1
+              },
+              {
+                "color": "super-light-green",
+                "value": 2
+              },
+              {
+                "color": "light-yellow",
+                "value": 3
+              },
+              {
+                "color": "#E24D42",
+                "value": 4
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 13,
+        "x": 5,
+        "y": 20
+      },
+      "id": 33,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "query": "from(bucket: \"IPercept\")\r\n  |> range(start: 2022-04-19, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Stages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"spindleStage\")\r\n  |> filter(fn: (r) => r[\"host\"] == \"MID_S1_M220412\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Mest kritiska subsystem ",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 18,
+        "y": 20
+      },
+      "id": 62,
+      "options": {
+        "content": "<b style=\"color:green;\"> Stage 0: </b> Fullständigt ny maskin <br>\n<b style=\"color:SeaGreen;\">  Stage 1: </b> Mindre defekter <br>\n<b style=\"color:LightGreen;\">  Stage 2: </b> Tydliga förslitningar i form av mindre gropar <br>\n<b style=\"color:yellow;\"> Stage 3: </b> Ökad förslitning och risk för accelererad försämring <br>\n<b style=\"color:Tomato;\"> Stage 4: </b> Tydliga skador, slutgilitiga skedet av förslitning <br>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": "Beskrivning av förslitningsskeden",
+      "type": "text"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 0,
+        "y": 21
+      },
+      "id": 42,
+      "options": {
+        "content": "# \n![Image](https://public-ipercept.s3.eu-north-1.amazonaws.com/Dashboard_pictures/Hermle+C42.png )  \n\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.2",
+      "title": " ",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "label": null,
+        "name": "TestVariable",
+        "query": "Test1",
+        "skipUrlSync": false,
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Insight",
+  "uid": "bvjl7rH4k",
+  "version": 19
+}

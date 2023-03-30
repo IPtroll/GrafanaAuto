@@ -1,0 +1,15 @@
+orgID: 1
+templateFileList: ['Temperature.json','Humidity.json']
+grafana_url: "http://localhost:3000/" #"http://13.51.222.7:3000/"
+grafana_admin: 'admin'
+admin_password: 'bmeKTH'
+machineID_list: ['berlin','budapest','rome','stockholm','vienna'] 
+datasource_name: "InfluxDB"
+
+
+user_csv: "user.csv"
+
+
+
+
+

@@ -1,0 +1,154 @@
+{
+    "MachineID": "MID_X0_M221213",
+    "IPerceptMachineName": "AutoDeployTest",
+    "customerMachineName": "ImportedMachineName",
+    "company": "X0",
+    "sensorBoxes": {
+        "SB_10000000341b4a8f": {
+            "mountingLocation": "PetersDesk",
+            "IMU": {
+                "idealSamplingFrequency": "",
+                "realSamplingFrequency": "",
+                "lengthOfFile": "",
+                "isInstalled": "",
+                "isActive": "0"
+            },
+            "ACC": {
+                "idealSamplingFrequency": "3200",
+                "realSamplingFrequency": "2938",
+                "lengthOfFile": "64000",
+                "range": "16"
+            },
+            "CBM": {
+                "idealWindowLength": "10",
+                "realWindowLength": "5.4685",
+                "decimationFactor": "FACTOR_8"
+            }
+        }
+    },
+    "connectedLUI": "",
+    "triggerSB": "",
+    "analysisVM":"i-016fc0aea6fda9246",
+    "ServiceContinuous": "False",
+    "specialCase": {
+        "enabled": "False",
+        "type": ""
+    },
+    "serviceSettings": {
+        "gatheringPhilosophy": "Discrete",
+        "recordingTime": 15,
+        "testDuration": 928,
+        "spindleMonitoring": "1",
+        "axisMonitoring": "1"
+       },
+    "subTests": {
+        "0": {
+            "type": "loopTest",
+            "involvedSB": "SB_10000000341b4a8f",
+            "timeLength": 170,
+            "amplitudeRangeSB": "", 
+            "amplitudeRangeVM": 0.35, 
+            "neighborFilter": 0.5, 
+            "accuracy": 1,
+            "subSubs": {
+                "0": {
+                    "name": "XZCW",
+                    "circleRadius": 100,
+                    "feedSpeed": 3000,
+                    "numberOfPeriods": 3,
+                    "endBufferTime": [2.5,2.5]
+                },
+                "1": {
+                    "name": "XZCCW",
+                    "circleRadius": 100,
+                    "feedSpeed": 3000,
+                    "numberOfPeriods": 3,
+                    "endBufferTime": [2.5,2.5]
+                },
+                "2": {
+                    "name": "YZCW",
+                    "circleRadius": 100,
+                    "feedSpeed": 3000,
+                    "numberOfPeriods": 3,
+                    "endBufferTime": [3,3.5]
+                },
+                "3": {
+                    "name": "YZCCW",
+                    "circleRadius": 100,
+                    "feedSpeed": 3000,
+                    "numberOfPeriods": 3,
+                    "endBufferTime": [3,2.5]
+                }
+            }
+        },
+        "1": {
+            "type": "linearTest",
+            "involvedSB": "SB_10000000341b4a8f",
+            "timeLength": 200,
+            "subSubs": {
+                "0": {
+                    "name": "Y",
+                    "durationOfSubSubTest": 10, 
+                    "lengthOfOneDirectionTravel": 200,
+                    "numberOfTravelsinOneDirection": 3,
+                    "feedSpeed": 3000,
+                    "sensorAxisDirectionMovement": ""
+                },
+                "1": {
+                    "name": "Z",
+                    "durationOfSubSubTest": 124, 
+                    "lengthOfOneDirectionTravel": 2200,
+                    "numberOfTravelsinOneDirection": 3,
+                    "feedSpeed": 3000,
+                    "sensorAxisDirectionMovement": "X"
+                },
+                "2": {
+                    "name": "X",
+                    "durationOfSubSubTest": 40, 
+                    "lengthOfOneDirectionTravel": 500,
+                    "numberOfTravelsinOneDirection": 4,
+                    "feedSpeed": 3000,
+                    "sensorAxisDirectionMovement": "Y"
+                }
+            }
+        },
+        "2": {
+            "type": "spindleTest",
+            "involvedSB": "SB_100000004ab6adab",
+            "timeLength": 186,
+            "numberOfSubSubs": 6,
+            "subSubs": {
+                "0": {
+                    "name": "100",
+                    "spinningTime": 30,
+                    "waitingTimeAfter":"1"
+                },
+                "1": {
+                    "name": "300",
+                    "spinningTime": 30,
+                    "waitingTimeAfter":"1"
+                },
+                "2": {
+                    "name": "800",
+                    "spinningTime": 30,
+                    "waitingTimeAfter":"1"
+                },
+                "3": {
+                    "name": "1200",
+                    "spinningTime": 30,
+                    "waitingTimeAfter":"1"
+                },
+                "4": {
+                    "name": "1700",
+                    "spinningTime": 30,
+                    "waitingTimeAfter":"1"
+                },
+                "5": {
+                    "name": "2000",
+                    "spinningTime": 30,
+                    "waitingTimeAfter":"1"
+                }
+            }
+        }
+    }
+}
