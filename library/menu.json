@@ -1,0 +1,35 @@
+{
+  "folderUid": "",
+  "uid": "menu",
+  "name": "Menu",
+  "kind": 1,
+  "type": "dashlist",
+  "description": "",
+  "model": {
+    "datasource": null,
+    "description": "",
+    "gridPos": {
+      "h": 16,
+      "w": 4,
+      "x": 0,
+      "y": 16
+    },
+    "libraryPanel": {
+      "name": "Menu",
+      "uid": "menu"
+    },
+    "options": {
+      "query": "",
+      "showHeadings": false,
+      "showRecentlyViewed": false,
+      "showSearch": true,
+      "showStarred": false,
+      "tags": [
+        "Menu item"
+      ]
+    },
+    "pluginVersion": "8.3.11",
+    "transparent": true,
+    "type": "dashlist"
+  }
+}

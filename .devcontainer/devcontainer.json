@@ -5,6 +5,10 @@
             "version": "latest"
         }
     },
+    "runArgs": [
+        "--env-file",
+        ".env"
+    ],
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
@@ -23,8 +27,6 @@
         }
     },
     "mounts": [
-        "source=${env:HOME}/.aws,target=/root/.aws,type=bind",
-        "source=${env:HOME}/Projects/VM_Analysis/aws.env,target=/run/secrets/aws.env,type=bind",
-        "source=${env:HOME}/Projects/VM_Analysis/global-bundle.pem,target=/run/secrets/global-bundle.pem,type=bind"
+        "source=${env:HOME}/.aws,target=/root/.aws,type=bind"
     ]
 }

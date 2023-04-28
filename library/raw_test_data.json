@@ -1,0 +1,304 @@
+{
+  "folderUid": "",
+  "uid": "raw_test_data",
+  "name": "Raw Test Data",
+  "type": "nline-plotlyjs-panel",
+  "kind": 1,
+  "description": "",
+  "model": {
+    "datasource": {
+      "type": "datasource",
+      "uid": "-- Mixed --"
+    },
+    "description": "",
+    "libraryPanel": {
+      "description": "",
+      "name": "Raw Test Data",
+      "uid": "raw_test_data",
+      "type": "nline-plotlyjs-panel"
+    },
+    "options": {
+      "config": {
+        "displayModeBar": true
+      },
+      "data": [
+        {
+          "line": {
+            "color": "blue"
+          },
+          "name": "Z",
+          "type": "scatter",
+          "yaxis": "y"
+        },
+        {
+          "line": {
+            "color": "green"
+          },
+          "name": "Y",
+          "type": "scatter",
+          "yaxis": "y2"
+        },
+        {
+          "line": {
+            "color": "red"
+          },
+          "name": "X",
+          "type": "scatter",
+          "yaxis": "y3"
+        },
+        {
+          "hoverlabel": {
+            "align": "top"
+          },
+          "mode": "text",
+          "textfont": {
+            "size": 12
+          },
+          "textposition": "middle center",
+          "type": "scatter",
+          "yaxis": "y4"
+        },
+        {
+          "hoverlabel": {
+            "align": "top"
+          },
+          "mode": "text",
+          "textfont": {
+            "size": 12
+          },
+          "textposition": "middle center",
+          "type": "scatter",
+          "yaxis": "y4"
+        }
+      ],
+      "layout": {
+        "font": {
+          "color": "darkgrey"
+        },
+        "hovermode": "closest",
+        "legend": {
+          "traceorder": "reversed"
+        },
+        "margin": {
+          "b": 10,
+          "l": 10,
+          "r": 10,
+          "t": 20
+        },
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(0,0,0,0)",
+        "xaxis": {
+          "anchor": "y4",
+          "autorange": true,
+          "range": [
+            946684800000,
+            978307200000
+          ],
+          "rangeslider": {
+            "autorange": true,
+            "range": [
+              "2000-01-01",
+              "2001-01-01 02:00"
+            ],
+            "visible": true,
+            "yaxis": {
+              "rangemode": "match"
+            },
+            "yaxis2": {
+              "rangemode": "match"
+            },
+            "yaxis3": {
+              "rangemode": "match"
+            },
+            "yaxis4": {
+              "rangemode": "match"
+            }
+          },
+          "showgrid": false,
+          "showspikes": false,
+          "showticklabels": true,
+          "type": "date",
+          "visible": true
+        },
+        "yaxis": {
+          "automargin": true,
+          "autorange": true,
+          "domain": [
+            0.1,
+            0.4
+          ],
+          "fixedrange": false,
+          "range": [
+            -1.7819281684027781,
+            -0.18633355034722177
+          ],
+          "showgrid": false,
+          "showticklabels": false,
+          "type": "linear",
+          "visible": true
+        },
+        "yaxis2": {
+          "autorange": true,
+          "domain": [
+            0.4,
+            0.7
+          ],
+          "fixedrange": false,
+          "range": [
+            -0.7838812934027778,
+            0.8117133246527778
+          ],
+          "scaleanchor": "y",
+          "showgrid": false,
+          "showticklabels": false,
+          "type": "linear",
+          "visible": true
+        },
+        "yaxis3": {
+          "autorange": true,
+          "domain": [
+            0.7,
+            1
+          ],
+          "fixedrange": false,
+          "range": [
+            -0.802924262152778,
+            0.792670355902778
+          ],
+          "scaleanchor": "y",
+          "showgrid": false,
+          "showticklabels": false,
+          "type": "linear",
+          "visible": true
+        },
+        "yaxis4": {
+          "autorange": false,
+          "domain": [
+            0,
+            0.1
+          ],
+          "range": [
+            0,
+            1
+          ],
+          "showgrid": false,
+          "showticklabels": false,
+          "type": "linear",
+          "visible": "true,"
+        }
+      },
+      "onclick": "let point_index = data[\"points\"][0][\"pointIndex\"]\nlet obj = data[\"points\"][0].data.customdata[data.points[0].pointIndex]\n// const obj = JSON.parse(text);\nconsole.log(obj)\n\nif(obj.parent2_label === \"loopTest\"){\n  getLocationSrv().update({\n    query: {\n      'var-loop_id': obj.id,\n      'var-loop_start': obj.start * 1000000,\n      'var-loop_end': obj.end * 1000000\n    },\n    partial: true,\n    replace: true,\n  });\n}\n\nif(obj.parent2_label === \"linearTest\"){\n  getLocationSrv().update({\n    query: {\n      'var-linear_id': obj.id,\n      'var-linear_start': obj.start * 1000000,\n      'var-linear_end': obj.end * 1000000\n    },\n    partial: true,\n    replace: true,\n  });\n}",
+      "script": "\nconst valid_data = data.series.length > 0 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"Date outside of time range\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\n\nconst div_box_height = {\n  \"subTest\": [0,0.3],\n  \"subSubTest\": [0.33, 0.6],\n  \"testPeriod\": [0.63, 0.9],\n  \"onlyTest\": [0,0]\n}\n\nconst div_box_base_color = {\n  \"loopTest\": [0, 1, 1],\n  \"spindleTest\": [1, 1, 0],\n  \"linearTest\": [1, 0, 1]\n}\n\nconst div_box_mult = {\n  \"subTest\": 128,\n  \"subSubTest\": 194,\n  \"testPeriod\": 255 \n}\n\nconst div_box_color = (level, type, opacity) => {\n  color = div_box_base_color[type]\n  mult = div_box_mult[level]\n  return `rgba(${color[0]*mult},${color[1]*mult},${color[2]*mult}, ${opacity})`\n}\n\n\nx = data.series[0].fields[0].values.buffer\n\ny_x =  data.series[0].fields[1].values.buffer\ny_y =  data.series[2].fields[1].values.buffer\ny_z =  data.series[1].fields[1].values.buffer\n\nplotX = {\n  x: x,\n  y: y_x,\n}\n\nplotY = {\n  x: x,\n  y: y_y,\n}\n\nplotZ = {\n  x: x,\n  y: y_z,\n}\nplots = [plotX, plotY, plotZ]\n\nlayout = {}\nif(data.series.length > 3){\n  subtest_id = data.series[3].fields[0].values.buffer\n  subtest_labels = data.series[3].fields[1].values.buffer\n  subtest_start = data.series[3].fields[2].values.buffer\n  subtest_end = data.series[3].fields[3].values.buffer\n  subtest_level = data.series[3].fields[4].values.buffer\n  parent_label = data.series[3].fields[5].values.buffer\n  parent2_label = data.series[3].fields[6].values.buffer\n\n  const divs = subtest_id.map((id, i) => ({\n    id: id,\n    label: subtest_labels[i],\n    start: subtest_start[i],\n    end: subtest_end[i],\n    mid: (subtest_start[i] + subtest_end[i])/2,\n    level: subtest_level[i],\n    parent_label: parent_label[i],\n    parent2_label: parent2_label[i],\n    selected: (id === parseInt(variables[\"loop_id\"]) || id === parseInt(variables[\"linear_id\"])) \n  }))\n\n\n  subtest_boxes = divs.map((div,i) => {\n    return {\n      type: 'rect',\n      x0: div.start,\n      x1: div.end,\n      y0: div_box_height[div.level][0],\n      y1: div_box_height[div.level][1],\n      yref: \"y4\",\n      line: {\n        color: div_box_color(div.level, div.parent2_label || div.parent_label || div.label, 1),\n        width: 2\n      },\n      fillcolor: div_box_color(div.level, div.parent2_label || div.parent_label || div.label, div.selected ? 1 : 0.7),\n      layer: \"below\"\n      }\n    })\n\n  const periods = divs.filter(div => div.level === \"testPeriod\")\n\n  period_scatter = {\n    x: periods.map(p => p.mid),\n    y: periods.map(p => div_box_height[\"testPeriod\"][0]+ 0.1),\n    customdata: periods,\n    showlegend: false,\n    hoverinfo: \"text\",\n    hovertemplate: \"Click to see details <br> <b>%{customdata.parent2_label}</b> <br> Axis: %{customdata.parent_label} <br> Period: %{customdata.label}\",\n    name: \"\"\n  }\n\n  const other = divs.filter(div => div.level !== \"testPeriod\")\n  other_scatter = {\n    x: other.map(p => p.mid),\n    y: other.map(p => div_box_height[p.level][0]+ 0.1),\n    text: other.map(p => p.label),\n    showlegend: false,\n    hoverinfo: \"none\",\n    name: \"\"\n  }\n\n  plots.push(period_scatter)\n  plots.push(other_scatter)\n  layout[\"shapes\"] = subtest_boxes\n\n}\n\nreturn {data: plots, layout:layout};"
+    },
+    "targets": [
+      {
+        "datasource": {
+          "uid": "98lpmixVk"
+        },
+        "hide": false,
+        "query": "from(bucket: \"V1\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"only_test_raw\")\r\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\r\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\r\n  |> aggregateWindow(every: ${raw_interval}, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")\r\n\r\n",
+        "refId": "data"
+      },
+      {
+        "datasource": {
+          "uid": "sQDdGmxVz"
+        },
+        "format": "table",
+        "group": [],
+        "hide": false,
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "SELECT test_div.id, test_div.label, (UNIX_TIMESTAMP(test_div.start_time)*1000), (UNIX_TIMESTAMP(test_div.end_time)*1000), test_div.level, p1.label as parent_label, p2.label as parent2_label FROM ${CID}_test_div_view as test_div\nINNER JOIN ${CID}_test_view as test on test.id = test_div.test_id\nLEFT JOIN ${CID}_test_div_view as p1 on test_div.parent_id = p1.id\nLEFT JOIN ${CID}_test_div_view as p2 on p1.parent_id = p2.id\nWHERE\ntest.MID = \"${MID}\" and\ntest_div.label != \"\" and\n$__timeFilter(test.trigger_time)",
+        "refId": "subtests",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_test_div_view",
+        "timeColumn": "start_time",
+        "timeColumnType": "timestamp",
+        "where": [
+          {
+            "name": "$__timeFilter",
+            "params": [],
+            "type": "macro"
+          }
+        ]
+      },
+      {
+        "datasource": {
+          "uid": "sQDdGmxVz"
+        },
+        "format": "table",
+        "group": [],
+        "hide": true,
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "SELECT test_div.label, (UNIX_TIMESTAMP(test_div.start_time)*1000), (UNIX_TIMESTAMP(test_div.end_time)*1000) FROM ${CID}_test_div_view as test_div \nINNER JOIN ${CID}_test_view as test on test.id = test_div.test_id\nWHERE test.MID = \"${MID}\" and test_div.level = \"subSubTest\" and $__timeFilter(test.trigger_time)",
+        "refId": "subsubtests",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_test_div_view",
+        "timeColumn": "start_time",
+        "timeColumnType": "timestamp",
+        "where": [
+          {
+            "name": "$__timeFilter",
+            "params": [],
+            "type": "macro"
+          }
+        ]
+      },
+      {
+        "datasource": {
+          "uid": "sQDdGmxVz"
+        },
+        "format": "table",
+        "group": [],
+        "hide": true,
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "SELECT test_div.label, (UNIX_TIMESTAMP(test_div.start_time)*1000), (UNIX_TIMESTAMP(test_div.end_time)*1000) FROM ${CID}_test_div_view as test_div\nINNER JOIN ${CID}_test_view as test on test.id = test_div.test_id\nWHERE test.MID = \"${MID}\" and\ntest_div.level = \"testPeriod\" and\ntest_div.label != \"\" and\n$__timeFilter(test.trigger_time)",
+        "refId": "testperiods",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_test_div_view",
+        "timeColumn": "start_time",
+        "timeColumnType": "timestamp",
+        "where": [
+          {
+            "name": "$__timeFilter",
+            "params": [],
+            "type": "macro"
+          }
+        ]
+      }
+    ],
+    "title": "Raw Test Data",
+    "transformations": [],
+    "transparent": true,
+    "type": "nline-plotlyjs-panel"
+  }
+}

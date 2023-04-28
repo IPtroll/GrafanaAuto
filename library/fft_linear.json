@@ -1,0 +1,167 @@
+{
+  "folderUid": "",
+  "uid": "fft_linear",
+  "name": "FFT Linear",
+  "kind": 1,
+  "type": "nline-plotlyjs-panel",
+  "description": "",
+  "model": {
+    "datasource": {
+      "type": "mysql",
+      "uid": "mysql_prod"
+    },
+    "description": "",
+    "gridPos": {
+      "h": 15,
+      "w": 10,
+      "x": 7,
+      "y": 24
+    },
+    "libraryPanel": {
+      "description": "",
+      "name": "FFT Linear",
+      "type": "nline-plotlyjs-panel",
+      "uid": "fft_linear"
+    },
+    "maxPerRow": 6,
+    "options": {
+      "config": {
+        "displayModeBar": false,
+        "responsive": true
+      },
+      "data": [
+        {
+          "hovertext": "Point from red trace",
+          "line": {
+            "color": "red",
+            "width": 2
+          },
+          "marker": {
+            "maxdisplayed": 200
+          },
+          "mode": "markers",
+          "type": "scatter"
+        },
+        {
+          "hovertext": "Point from blue trace",
+          "line": {
+            "color": "blue",
+            "width": 2
+          },
+          "mode": "lines",
+          "type": "scatter"
+        }
+      ],
+      "layout": {
+        "font": {
+          "color": "darkgrey"
+        },
+        "margin": {
+          "b": 20,
+          "l": 0,
+          "r": 0,
+          "t": 0
+        },
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(0,0,0,0)",
+        "scene": {
+          "aspectmode": "auto",
+          "aspectratio": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "dragmode": "turntable",
+          "hovermode": "closest",
+          "xaxis": {
+            "showgrid": true,
+            "showspikes": true,
+            "showticklabels": true,
+            "title": {
+              "text": "Time"
+            },
+            "type": "date"
+          },
+          "yaxis": {
+            "showgrid": true,
+            "showspikes": true,
+            "showticklabels": true,
+            "title": {
+              "text": "Frequency"
+            },
+            "type": "linear"
+          },
+          "zaxis": {
+            "showgrid": false,
+            "showspikes": true,
+            "showticklabels": false,
+            "title": {
+              "text": "Value"
+            },
+            "type": "linear"
+          }
+        },
+        "showlegend": false,
+        "xaxis": {
+          "autorange": false,
+          "type": "date"
+        },
+        "yaxis": {
+          "automargin": true,
+          "autorange": true,
+          "fixedrange": false,
+          "range": [
+            0,
+            10000
+          ],
+          "type": "linear"
+        },
+        "zaxis": {
+          "autorange": true
+        }
+      },
+      "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+      "script": "const valid_data = data.series.length > 0 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"No data in range\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\nconst reshape = (arr, x, y, z) => {\n  const res = []\n  for (let x_i = 0; x_i < x; x_i++) {\n    const y_arr = []\n    for (let y_i = 0; y_i < y; y_i++){\n      const i = x_i * y * z + y_i * z\n      const z_arr = arr.slice(i, i+z)\n      y_arr.push(z_arr)\n    }\n    res.push(y_arr)\n  }\n  return res\n}\n\nconst d = data.series[0]\nconst test_times = d.fields[0].values.buffer\nconst bins = d.fields[1].values.buffer\nconst metrics = d.fields[2].values.buffer\nlet values = d.fields[3].values.buffer\nconst unique_metrics = [...new Set(metrics)];\nconst unique_times = [...new Set(test_times)];\n// const unique_bins = [...new Set(bins)];\nconst unique_bins = [...Array(2046).keys()];\n\nconsole.log(values.length, unique_metrics.length * unique_times.length * unique_bins.length)\nconsole.log(unique_metrics.length, unique_times.length, unique_bins.length)\nvalues = reshape(values, unique_metrics.length, unique_bins.length, unique_times.length)\n// console.log(values)\nplots = unique_metrics.map((metric, i) => {\n  let group = values[i]\n  return {\n    x: unique_times,\n    y: unique_bins,\n    z: group,\n    visible: false,\n    type: \"surface\",\n    colorscale: \"Portland\",\n    showscale: false\n  }\n})\nplots[0][\"visible\"] = true\n\nconst buttons =  unique_metrics.map((metric, i) => {\n  let visible = new Array(plots.length).fill(false)\n  visible[i] = true\n  return {\n    args: [{\"visible\": visible}],\n    label: metric,\n    method: \"update\"\n  }\n})\n\nlet updateMenus = [\n    {\n      buttons: buttons,\n      direction: 'left',\n      pad: {'r': 10, 't': 10},\n      showactive: true,\n      type: 'buttons',\n      x: 0.1,\n      xanchor: 'left',\n      y: 1,\n      yanchor: 'top'},{\n        buttons: [\n            {\n                args: ['type', 'surface'],\n                label: '3D Surface',\n                method: 'restyle'\n            },\n            {\n                args: ['type', 'heatmap'],\n                label:'Heatmap',\n                method:'restyle'\n            }\n        ],\n        direction: 'left',\n        pad: {'r': 10, 't': 10},\n        showactive: true,\n        type: 'buttons',\n        x: 1,\n        xanchor: 'right',\n        y: 1,\n        yanchor: 'top',\n        font: {color: '#5072a8'}\n    },\n  ]\n\n\n\nlet fro = new Date(parseInt(variables.__from))\nlet to = new Date(parseInt(variables.__to))\nlet layout={\n  xaxis:  {range: [fro, to]},\n  updatemenus: updateMenus,\n  scene: {\n    camera: {\n      center: {\n        x: -0.1,\n        y: -0.1,\n        z: -0.2,\n      },\n      eye: {\n        x: 1.5,\n        y: -1.5,\n        z: 0.7\n      }\n    }         \n  }\n}\n// console.log(layout)\n\nreturn {data:plots, layout:layout};\n\n// let annot = []\n// events = data.series.filter(f => f.refId == \"Annot\")\n// console.log(events)\n// if(events.length > 0 && events[0].length > 0){\n//   events = events.map(f => {\n//     return {time: f.fields[0].values.buffer[0], name: f.fields[1].labels[\"name\"]}})\n//   annot = events.flatMap(event => {\n//     return [{\n//       type: 'scatter3d',\n//       mode: 'lines+text',\n//       x: [event.time, event.time],\n//       y: [\"bin1000\", \"annot\"],\n//       z: [0,0],\n//       text: [\"\",event.name],\n//       textposition: 'right',\n//       line: {\n//         width: 3,\n//         color: \"#BB7474\"},\n//       textfont: {\n//         size: 16, color: \"#BB7474\"\n//       }\n//     }, {\n//       type: 'scatter3d',\n//       mode: 'lines+text',\n//       x: [event.time, event.time],\n//       y: [\"bin1000\", \"bin1000\"],\n//       z: [0,14],\n//       text: [\"\",event.name],\n//       textposition: 'top',\n//       line: {\n//         width: 3,\n//         color: \"#BB7474\"},\n//       textfont: {\n//         size: 16, color: \"#BB7474\"\n//       }\n//     }]\n//   })\n// }\n"
+    },
+    "repeatDirection": "h",
+    "targets": [
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "mysql_prod"
+        },
+        "format": "table",
+        "group": [],
+        "hide": false,
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "SELECT (UNIX_TIMESTAMP(test.trigger_time)*1000) as time, CAST(m.label as DECIMAL(18,9)) as bin, subSubTest.label as metric, AVG(m.value) as value FROM ${CID}_metric_view as m\nINNER JOIN ${CID}_test_div_view as period on period.id = m.test_div_id\nINNER JOIN ${CID}_test_div_view as subSubTest on subSubTest.id = period.parent_id\nINNER JOIN ${CID}_test_view as test on test.id = period.test_id\nWHERE m.name = \"IMU Squared\"\nand period.level = \"testPeriod\"\nand period.label = \"${linear_direction}\"\nand test.mid = \"${MID}\"\nand  $__timeFilter(test.trigger_time)\ngroup by test.trigger_time, m.label, subSubTest.label\norder by metric, bin, test.trigger_time asc",
+        "refId": "A",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_test_div_view",
+        "timeColumn": "start_time",
+        "timeColumnType": "timestamp",
+        "where": [
+          {
+            "name": "$__timeFilter",
+            "params": [],
+            "type": "macro"
+          }
+        ]
+      }
+    ],
+    "title": "Frekvenskarta - Linear",
+    "transformations": [],
+    "transparent": true,
+    "type": "nline-plotlyjs-panel"
+  }
+}

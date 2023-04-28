@@ -1,0 +1,89 @@
+{
+  "folderUid": "",
+  "uid": "loop_acceleration",
+  "name": "Loop Acceleration",
+  "type": "nline-plotlyjs-panel",
+  "kind": 1,
+  "description": "",
+  "model": {
+    "datasource": null,
+    "description": "",
+    "libraryPanel": {
+      "description": "",
+      "name": "Loop Acceleration",
+      "uid": "loop_acceleration",
+      "type": "nline-plotlyjs-panel"
+    },
+    "options": {
+      "config": {
+        "displayModeBar": true
+      },
+      "data": [
+        {
+          "line": {
+            "color": "red"
+          },
+          "mode": "lines",
+          "type": "scatterpolar"
+        }
+      ],
+      "layout": {
+        "font": {
+          "color": "darkgrey"
+        },
+        "margin": {
+          "b": 20,
+          "l": 10,
+          "r": 10,
+          "t": 20
+        },
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(128,0,128,0.7)",
+        "polar": {
+          "angularaxis": {
+            "direction": "clockwise",
+            "gridcolor": "darkgrey",
+            "rotation": 90,
+            "type": "linear"
+          },
+          "bgcolor": "rgba(0,128,128,0.5)",
+          "radialaxis": {
+            "autorange": false,
+            "gridcolor": "darkgrey",
+            "range": [
+              -0.05,
+              0.03
+            ],
+            "type": "linear",
+            "visible": true
+          }
+        },
+        "xaxis": {
+          "autorange": true,
+          "type": "date"
+        },
+        "yaxis": {
+          "automargin": true,
+          "autorange": false,
+          "type": "linear"
+        }
+      },
+      "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+      "script": "const valid_data = data.series.length > 2 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"No Data\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\n\nconst colors = [\"rgba(255, 0, 0,0.7)\", \"rgba(0, 255, 0,0.7)\", \"rgba(0, 0, 255,0.7)\"]\nconst traces = [\"x\",\"y\",\"z\"].map((axis, i) => {\n  let t = data.series[i].fields[0].values.buffer;\n  let r = data.series[i].fields[1].values.buffer;\n  t = [...Array(t.length).keys()].map(v => (v/t.length)* 365)\n  return {\n    r: r,\n    theta: t,\n    name: axis,\n    type: \"scatterpolar\",\n    mode: \"lines\",\n    line: {color: colors[i]}\n  }\n})\n\n\nlayout = {polar: {radialaxis: { range: [-0.05, 0.03]}}}\n\nreturn { data: traces, layout: layout };"
+    },
+    "targets": [
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "98lpmixVk"
+        },
+        "query": "from(bucket: \"V1\")\n  |> range(start: time(v:${loop_start}), stop: time(v:${loop_end}))\n  |> filter(fn: (r) => r[\"_measurement\"] == \"filtered_loop\")\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\n  |> aggregateWindow(every: ${detailed_interval}, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+        "refId": "A"
+      }
+    ],
+    "title": "Loop Acceleration",
+    "transformations": [],
+    "transparent": true,
+    "type": "nline-plotlyjs-panel"
+  }
+}

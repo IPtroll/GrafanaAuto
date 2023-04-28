@@ -1,0 +1,100 @@
+{
+  "folderUid": "",
+  "uid": "total_performed_tests",
+  "name": "Total performed tests",
+  "kind": 1,
+  "type": "stat",
+  "description": "",
+  "model": {
+    "datasource": {
+      "type": "mysql",
+      "uid": "mysql_prod"
+    },
+    "description": "",
+    "fieldConfig": {
+      "defaults": {
+        "color": {
+          "mode": "thresholds"
+        },
+        "mappings": [],
+        "thresholds": {
+          "mode": "absolute",
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "red",
+              "value": 80
+            }
+          ]
+        }
+      },
+      "overrides": []
+    },
+    "gridPos": {
+      "h": 4,
+      "w": 3,
+      "x": 20,
+      "y": 5
+    },
+    "id": 116,
+    "libraryPanel": {
+      "name": "Totalt antal test genomf\u00f6rda machine"
+    },
+    "options": {
+      "colorMode": "value",
+      "graphMode": "none",
+      "justifyMode": "auto",
+      "orientation": "auto",
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "text": {},
+      "textMode": "auto"
+    },
+    "pluginVersion": "8.3.11",
+    "targets": [
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "mysql_prod"
+        },
+        "format": "table",
+        "group": [],
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "select count(*) from ${CID}_test_trigger_view as test_trigger\nJOIN ${CID}_sensorboxes_view as sb on sb.sbid = test_trigger.sbid\nwhere manual_label = 1 and MID = \"${MID}\"",
+        "refId": "A",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_test_div_view",
+        "timeColumn": "start_time",
+        "timeColumnType": "timestamp",
+        "where": [
+          {
+            "name": "$__timeFilter",
+            "params": [],
+            "type": "macro"
+          }
+        ]
+      }
+    ],
+    "title": "Totalt antal test genomf\u00f6rda",
+    "transparent": true,
+    "type": "stat"
+  }
+}

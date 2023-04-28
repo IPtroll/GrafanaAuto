@@ -1,0 +1,78 @@
+{
+  "folderUid": "",
+  "uid": "linear_acceleration",
+  "name": "Linear Acceleration",
+  "type": "nline-plotlyjs-panel",
+  "kind": 1,
+  "description": "",
+  "model": {
+    "datasource": null,
+    "description": "",
+    "libraryPanel": {
+      "description": "",
+      "name": "Linear Acceleration",
+      "uid": "linear_acceleration",
+      "type": "nline-plotlyjs-panel"
+    },
+    "options": {
+      "config": {
+        "displayModeBar": true
+      },
+      "data": [
+        {
+          "line": {
+            "color": "red"
+          },
+          "mode": "lines",
+          "type": "scatter"
+        }
+      ],
+      "layout": {
+        "font": {
+          "color": "darkgrey"
+        },
+        "margin": {
+          "b": 20,
+          "l": 10,
+          "r": 10,
+          "t": 20
+        },
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(128,0,128,0.5)",
+        "xaxis": {
+          "autorange": true,
+          "range": [
+            946684800000,
+            978307200000
+          ],
+          "type": "date"
+        },
+        "yaxis": {
+          "automargin": true,
+          "autorange": true,
+          "range": [
+            -1,
+            4
+          ],
+          "type": "linear"
+        }
+      },
+      "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+      "script": "const valid_data = data.series.length > 2 && data.series[0].fields.length > 0\nif (!valid_data) {\n  return {\n    \"layout\": {\n        \"xaxis\": {\n            \"visible\": false\n        },\n        \"yaxis\": {\n            \"visible\": false\n        },\n        \"annotations\": [\n            {\n                \"text\": \"No Data\",\n                \"xref\": \"paper\",\n                \"yref\": \"paper\",\n                \"showarrow\": false,\n                \"font\": {\n                    \"size\": 28\n                }\n            }\n        ]\n    }\n  }\n}\n\nconst colors = [\"rgba(255, 0, 0,0.7)\", \"rgba(0, 255, 0,0.7)\", \"rgba(0, 0, 255,0.7)\"]\nconst traces = [\"x\",\"y\",\"z\"].map((axis, i) => {\n  let x = data.series[i].fields[0].values.buffer;\n  let y = data.series[i].fields[1].values.buffer;\n  // t = [...Array(t.length).keys()].map(v => (v/t.length)* 365)\n  return {\n    x: x,\n    y: y,\n    name: axis,\n    type: \"scatter\",\n    mode: \"lines\",\n    line: {color: colors[i]}\n  }\n})\n\n\nlayout = {polar: {radialaxis: { range: [-0.05, 0.03]}}}\n\nreturn { data: traces, layout: layout };"
+    },
+    "targets": [
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "98lpmixVk"
+        },
+        "query": "from(bucket: \"V1\")\n  |> range(start: time(v:${linear_start}), stop: time(v:${linear_end}))\n  |> filter(fn: (r) => r[\"_measurement\"] == \"only_test_raw\")\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\n  |> aggregateWindow(every: ${detailed_interval}, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+        "refId": "A"
+      }
+    ],
+    "title": "Linear Acceleration",
+    "transformations": [],
+    "transparent": true,
+    "type": "nline-plotlyjs-panel"
+  }
+}

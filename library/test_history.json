@@ -1,0 +1,137 @@
+{
+  "folderUid": "",
+  "uid": "test_history",
+  "name": "Test History",
+  "kind": 1,
+  "type": "nline-plotlyjs-panel",
+  "description": "",
+  "model": {
+    "datasource": {
+      "type": "mysql",
+      "uid": "mysql_prod"
+    },
+    "description": "",
+    "gridPos": {
+      "h": 9,
+      "w": 11,
+      "x": 9,
+      "y": 1
+    },
+    "libraryPanel": {
+      "description": "",
+      "meta": {
+        "connectedDashboards": 5,
+        "created": "2023-03-08T08:39:00Z",
+        "createdBy": {
+          "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+          "id": 1,
+          "name": "admin"
+        },
+        "folderName": "General",
+        "folderUid": "",
+        "updated": "2023-03-13T11:00:48Z",
+        "updatedBy": {
+          "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+          "id": 1,
+          "name": "admin"
+        }
+      },
+      "name": "Testhistorik",
+      "type": "nline-plotlyjs-panel",
+      "uid": "Wv-Iqi-4z",
+      "version": 3
+    },
+    "options": {
+      "config": {
+        "displayModeBar": false
+      },
+      "data": [
+        {
+          "hovertemplate": "<i>Test:</i> %{x}<br><b>Click to see details</b>",
+          "hovertext": "Point from red trace",
+          "marker": {
+            "maxdisplayed": 200,
+            "size": 12
+          },
+          "mode": "markers",
+          "name": "",
+          "type": "scatter"
+        }
+      ],
+      "layout": {
+        "font": {
+          "color": "darkgrey"
+        },
+        "margin": {
+          "b": 40,
+          "l": 20,
+          "r": 20,
+          "t": 5
+        },
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(0,0,0,0)",
+        "xaxis": {
+          "autorange": true,
+          "gridcolor": "grey",
+          "range": [
+            946684800000,
+            978307200000
+          ],
+          "type": "date"
+        },
+        "yaxis": {
+          "automargin": true,
+          "autorange": true,
+          "gridcolor": "grey",
+          "range": [
+            -185.78660049627794,
+            2457.786600496278
+          ],
+          "showgrid": true,
+          "type": "linear"
+        }
+      },
+      "onclick": "// let timestamp = data[\"points\"][0][\"x\"]\nconst details_dashboard = getTemplateSrv().variables.filter(v => v.id === \"details_dashboard\")\nif(details_dashboard.length > 0){\n  let point_index = data[\"points\"][0][\"pointIndex\"]\n  let timestamp = data[\"points\"][0][\"data\"][\"x\"][point_index]\n  timestamp = new Date(timestamp)\n  let fro = timestamp.getTime()\n  timestamp.setMinutes(timestamp.getMinutes() + 15); // timestamp\n  let to = timestamp.getTime()\n  let mid = data[\"points\"][0][\"text\"]\n  window.open(`/d/${details_dashboard[0][\"query\"]}/test-details?from=${fro}&to=${to}&var-MID=${mid}`)\n}\n",
+      "script": "function getDateTime(date) {\n\n    var hour = date.getHours();\n    hour = (hour < 10 ? \"0\" : \"\") + hour;\n\n    var min  = date.getMinutes();\n    min = (min < 10 ? \"0\" : \"\") + min;\n\n    return hour + \":\" + min;\n}\n\nlet x = data.series[0].fields[0].values.buffer;\nlet y_text = x.map(t => getDateTime(new Date(t)))\nlet y_vals = y_text.map(t => parseInt(t.replace(/\\D/g,'')))\nlet mids = data.series[0].fields[1].values.buffer\n  \nlet trace1 = {\n  x: x,\n  y: y_vals,\n  text: mids,\n  line: {\n    color: mids.map(mid => mid ? \"green\" : \"yellow\")\n  }\n};\n\nlayout = {\"yaxis\": {\n      \"tickvals\": [0, 400, 800, 1200, 1600, 2000, 2400],\n      \"ticktext\": [\"00:00\", \"04:00\", \"08:00\", \"12:00\", \"16:00\", \"20:00\", \"24:00\"]\n    }}\nreturn { data: [trace1], layout:layout };"
+    },
+    "targets": [
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "mysql_prod"
+        },
+        "format": "table",
+        "group": [],
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "SELECT (UNIX_TIMESTAMP(test_trigger.trigger_time)*1000), test.mid FROM ${CID}_test_trigger_view as test_trigger\nJOIN  ${CID}_sensorboxes_view as sb ON sb.sbid = test_trigger.sbid \nLEFT JOIN  ${CID}_test_view as test ON test.test_trigger_id = test_trigger.id\nWHERE\ntest_trigger.manual_label = 1 and\nsb.mid = \"${MID}\" and\n$__timeFilter(test_trigger.trigger_time)\nORDER BY test_trigger.trigger_time",
+        "refId": "A",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ],
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_test_trigger_view",
+        "timeColumn": "start_time",
+        "timeColumnType": "timestamp",
+        "where": []
+      }
+    ],
+    "title": "Testhistorik - ${machine_name}",
+    "transparent": true,
+    "type": "nline-plotlyjs-panel"
+  }
+}
