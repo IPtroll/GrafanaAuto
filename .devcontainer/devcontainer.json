@@ -1,0 +1,30 @@
+{
+    "image": "de.icr.io/ipercept/base:0.1.6",
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest"
+        }
+    },
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "ms-python.python",
+                "github.copilot",
+                "github.copilot-labs"
+            ],
+            "settings": {
+                "python.linting.mypyEnabled": true,
+                "python.linting.enabled": true,
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.testing.pytestEnabled": true
+            }
+        }
+    },
+    "mounts": [
+        "source=${env:HOME}/.aws,target=/root/.aws,type=bind",
+        "source=${env:HOME}/Projects/VM_Analysis/aws.env,target=/run/secrets/aws.env,type=bind",
+        "source=${env:HOME}/Projects/VM_Analysis/global-bundle.pem,target=/run/secrets/global-bundle.pem,type=bind"
+    ]
+}
