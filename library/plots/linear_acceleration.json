@@ -64,9 +64,9 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "98lpmixVk"
+          "uid": "influx_prod"
         },
-        "query": "from(bucket: \"V1\")\n  |> range(start: time(v:${linear_start}), stop: time(v:${linear_end}))\n  |> filter(fn: (r) => r[\"_measurement\"] == \"only_test_raw\")\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\n  |> aggregateWindow(every: ${detailed_interval}, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+        "query": "from(bucket: \"${CID}\")\n  |> range(start: time(v:${linear_start}), stop: time(v:${linear_end}))\n  |> filter(fn: (r) => r[\"_measurement\"] == \"only_test_raw\")\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\n  |> aggregateWindow(every: ${detailed_interval}, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
         "refId": "A"
       }
     ],

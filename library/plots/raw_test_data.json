@@ -193,15 +193,15 @@
     "targets": [
       {
         "datasource": {
-          "uid": "98lpmixVk"
+          "uid": "influx_prod"
         },
         "hide": false,
-        "query": "from(bucket: \"V1\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"only_test_raw\")\r\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\r\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\r\n  |> aggregateWindow(every: ${raw_interval}, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")\r\n\r\n",
+        "query": "from(bucket: \"${CID}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"only_test_raw\")\r\n  |> filter(fn: (r) => r[\"MID\"] == \"${MID}\")\r\n  |> filter(fn: (r) => r[\"axis\"] == \"X\" or r[\"axis\"] == \"Y\" or r[\"axis\"] == \"Z\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\r\n  |> aggregateWindow(every: ${raw_interval}, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")\r\n\r\n",
         "refId": "data"
       },
       {
         "datasource": {
-          "uid": "sQDdGmxVz"
+          "uid": "mysql_prod"
         },
         "format": "table",
         "group": [],
@@ -233,7 +233,7 @@
       },
       {
         "datasource": {
-          "uid": "sQDdGmxVz"
+          "uid": "mysql_prod"
         },
         "format": "table",
         "group": [],
@@ -265,7 +265,7 @@
       },
       {
         "datasource": {
-          "uid": "sQDdGmxVz"
+          "uid": "mysql_prod"
         },
         "format": "table",
         "group": [],

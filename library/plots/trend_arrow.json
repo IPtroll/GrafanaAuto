@@ -1,0 +1,120 @@
+{
+  "folderUid": "",
+  "uid": "trend_arrow",
+  "name": "Trend Arrow",
+  "type": "nline-plotlyjs-panel",
+  "kind": 1,
+  "description": "",
+  "model": {
+    "datasource": {
+      "type": "mysql",
+      "uid": "sQDdGmxVz"
+    },
+    "description": "",
+    "libraryPanel": {
+      "description": "",
+      "name": "Trend Arrow",
+      "uid": "trend_arrow",
+      "type": "nline-plotlyjs-panel"
+    },
+    "options": {
+      "config": {
+        "displayModeBar": false
+      },
+      "data": [
+        {
+          "hovertext": "Point from red trace",
+          "line": {
+            "color": "red",
+            "width": 2
+          },
+          "marker": {
+            "maxdisplayed": 200
+          },
+          "mode": "markers",
+          "type": "scatter"
+        }
+      ],
+      "layout": {
+        "font": {
+          "color": "darkgrey"
+        },
+        "margin": {
+          "b": 40,
+          "l": 20,
+          "r": 20,
+          "t": 5
+        },
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(0,0,0,0)",
+        "xaxis": {
+          "automargin": true,
+          "autorange": false,
+          "range": [
+            -1,
+            1
+          ],
+          "showaxis": false,
+          "showgrid": false,
+          "showticklabels": false,
+          "type": "date",
+          "zeroline": false
+        },
+        "yaxis": {
+          "automargin": true,
+          "autorange": false,
+          "range": [
+            -1,
+            1
+          ],
+          "showaxis": false,
+          "showgrid": false,
+          "showticklabels": false,
+          "showticks": false,
+          "zeroline": true
+        }
+      },
+      "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+      "script": "function lerpRGB(color1, color2, t) {\n    let color = {};\n    color.r = color1.r + ((color2.r - color1.r) * t);\n    color.g = color1.g + ((color2.g - color1.g) * t);\n    color.b = color1.b + ((color2.b - color1.b) * t);\n    return color;\n}\n\nconst text_map = (slope) => {\n  if (slope < 0.0) return `Declining: ${slope}`\n  if (slope > 0.0) return `Improving: ${slope}`\n  return 'Stable'\n}\n\nconst color_map = (slope) => {\n  if (slope < 0.0 && slope > -0.1) return \"rgb(235,161,52)\"\n  if (slope < -0.1) return \"rgb(235,52,52)\"\n  if (slope >= -0.01) return \"rgb(58,184,0)\"\n}\n\n\n\n\nlet trace1 = {\n  x: [],\n  y: []\n};\n\n\ns = -0.0\na = (Math.PI / 2) * (1 - s)\na_degree = ((a - Math.PI / 2) * (45/Math.PI)) \nr = 0.4\n\nx1 = Math.sin(a) * r\ny1 = Math.cos(a) * r\nx2 = Math.sin(a + Math.PI) * r\ny2 = Math.cos(a + Math.PI) * r\n\ncolor = lerpRGB({r: 1., g: 0, b: 0}, {r: 0, g: 1., b: 0}, 0.5 + s)\n\nconsole.log(x1, y1, x2, y2, color)\n\nconst annotations = [{\n  xref: 'paper',\n  yref: 'paper',\n  axref: \"paper\",\n  ayref: \"paper\",\n  x: x1 + 0.5,\n  y: y1 + 0.5,\n  ax: x2 + 0.5,\n  ay: y2 + 0.5,\n  arrowsize: 1,\n  arrowwidth: 7,\n  width: 5,\n  arrowcolor: color_map(s),\n  showarrow: true,\n  \n},{\n  x: 0, \n  y: 0,\n  text: text_map(s),\n  xanchor: \"center\",\n  align: \"center\",\n  valign: \"center\",\n  font: {\n    color: `rgb(${color.r * 255},${color.g * 255},${color.b * 255})`,\n    size: 30\n  },\n  arrowcolor: `rgba(0,0,0,0)`,\n  textangle: a_degree\n}]\n\nlayout = {\n  annotations: annotations\n}\n\nreturn { data: [trace1],  layout};"
+    },
+    "targets": [
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "sQDdGmxVz"
+        },
+        "format": "time_series",
+        "group": [],
+        "hide": true,
+        "metricColumn": "none",
+        "rawQuery": true,
+        "rawSql": "SELECT\n  timestamp AS \"time\",\n  id\nFROM V1_annotation_view\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+        "refId": "A",
+        "select": [
+          [
+            {
+              "params": [
+                "id"
+              ],
+              "type": "column"
+            }
+          ]
+        ],
+        "table": "V1_annotation_view",
+        "timeColumn": "timestamp",
+        "timeColumnType": "timestamp",
+        "where": [
+          {
+            "name": "$__timeFilter",
+            "params": [],
+            "type": "macro"
+          }
+        ]
+      }
+    ],
+    "title": "Trend Arrow",
+    "transformations": [],
+    "transparent": true,
+    "type": "nline-plotlyjs-panel"
+  }
+}

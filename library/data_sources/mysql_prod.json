@@ -1,0 +1,24 @@
+{
+    "uid": "mysql_prod",
+    "name": "MySQL Production",
+    "type": "mysql",
+    "typeLogoUrl": "",
+    "access": "proxy",
+    "url": "dev-sql-database.cluster-cxtztxypyc3h.eu-north-1.rds.amazonaws.com:3306",
+    "password": "",
+    "user": "",
+    "database": "tests",
+    "basicAuth": false,
+    "basicAuthUser": "",
+    "basicAuthPassword": "",
+    "withCredentials": false,
+    "isDefault": false,
+    "jsonData": {
+        "tlsAuthWithCACert": true
+    },
+    "secureJsonFields": {
+        "password": true,
+        "tlsCACert": true
+    },
+    "readOnly": true
+}
